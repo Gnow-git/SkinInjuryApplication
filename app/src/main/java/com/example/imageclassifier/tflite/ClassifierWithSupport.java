@@ -1,4 +1,4 @@
-package com.example.imageclassifier;
+package com.example.imageclassifier.tflite;
 
 import static org.tensorflow.lite.support.image.ops.ResizeOp.ResizeMethod.NEAREST_NEIGHBOR;
 
@@ -26,12 +26,15 @@ public class ClassifierWithSupport {
     private static final String MODEL_NAME = "mobilenet_imagenet_model.tflite";
     private static final String LABEL_FILE = "label.txt";
     Context context;
-    Interpreter interpreter = null;
+    Interpreter interpreter;
     int modelInputWidth, modelInputHeight, modelInputChannel;
     TensorImage inputImage;
     TensorBuffer outputBuffer;
     private List<String> labels;
 
+    public ClassifierWithSupport(Context context){
+        this.context = context;
+    }
     public void init() throws IOException{
         ByteBuffer model = FileUtil.loadMappedFile(context, MODEL_NAME);
         model.order(ByteOrder.nativeOrder());
@@ -40,8 +43,6 @@ public class ClassifierWithSupport {
         initModelShape();
         labels = FileUtil.loadLabels(context, LABEL_FILE);
     }
-
-
 
     private void initModelShape() {
         Tensor inputTensor = interpreter.getInputTensor(0);
@@ -57,8 +58,16 @@ public class ClassifierWithSupport {
         outputBuffer = TensorBuffer.createFixedSize(outputTensor.shape(),outputTensor.dataType());
     }
 
+    private Bitmap convertBitmapToARGB8888(Bitmap bitmap) {
+        return bitmap.copy(Bitmap.Config.ARGB_8888,true);
+    }
+
     private TensorImage loadImage(final Bitmap bitmap) {
-        inputImage.load(bitmap);
+        if(bitmap.getConfig() != Bitmap.Config.ARGB_8888) {
+            inputImage.load(convertBitmapToARGB8888(bitmap));
+        } else {
+            inputImage.load(bitmap);
+        }
 
         ImageProcessor imageProcessor =
                 new ImageProcessor.Builder()
@@ -67,6 +76,7 @@ public class ClassifierWithSupport {
                         .build();
         return imageProcessor.process(inputImage);
     }
+
 
     public Pair<String, Float> classify(Bitmap image) {
         inputImage = loadImage(image);
@@ -91,5 +101,9 @@ public class ClassifierWithSupport {
         }
 
         return new Pair<>(maxKey, maxVal);
+    }
+    public void finish() {
+        if(interpreter != null)
+            interpreter.close();
     }
 }

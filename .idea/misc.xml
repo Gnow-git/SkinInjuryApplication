@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/gnow/AndroidStudioProjects/ImageClassifier/app/src/main/res/layout/activity_gallery.xml" value="0.14285714285714285" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/ImageClassifier/app/src/main/res/layout/activity_camera.xml" value="0.16742654508611957" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/ImageClassifier/app/src/main/res/layout/activity_gallery.xml" value="0.1" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/ImageClassifier/app/src/main/res/layout/activity_main.xml" value="0.21240942028985507" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/ImageClassifier/app/src/main/res/xml/xml.xml" value="0.24003623188405798" />
       </map>
     </option>
   </component>
