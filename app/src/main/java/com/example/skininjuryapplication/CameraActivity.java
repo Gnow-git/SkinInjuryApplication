@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 public class CameraActivity extends AppCompatActivity {
+    //카메라 앱을 실행하기 위한 요청에 사용할 코드
     public static final String TAG = "[IC]CameraActivity";
     public static final int CAMERA_IMAGE_REQUEST_CODE = 1;
     private static final String KEY_SELECTED_URI = "KEY_SELECTED_URI";
@@ -34,9 +35,10 @@ public class CameraActivity extends AppCompatActivity {
     private ImageView imageView;
     private TextView textView;
 
-    Uri selectedImageUri;
+    Uri selectedImageUri;   // 이미지를 받아올 Uri
 
     @Override
+    //UI 컨트롤 및 Classifier 가져오기
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
@@ -54,6 +56,7 @@ public class CameraActivity extends AppCompatActivity {
             ioe.printStackTrace();
         }
 
+        //액티비티가 죽어도 selectedImageUri 값 유지
         if(savedInstanceState != null){
             Uri uri = savedInstanceState.getParcelable(KEY_SELECTED_URI);
             if (uri != null)
@@ -62,13 +65,18 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     @Override
+    //CameraAcitivy 종료 방지 -> 이미지 정상 로드 불가능
     protected void onSaveInstanceState(@NonNull Bundle outState){
+        //액티비티가 종료될 때 호출
+        //앱이 다시 실행되었을 때 저장 값 사용 가능
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(KEY_SELECTED_URI, selectedImageUri);
     }
 
+    //카메라 앱을 실행
     private void getImageFromCamera(){
+        //사용자에게 보여주면 되므로 앱에서만 접근할 수 있는 영역에 저장
         File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                 "picture.jpg");
         selectedImageUri = FileProvider.getUriForFile(this, getPackageName(), file);
@@ -78,6 +86,7 @@ public class CameraActivity extends AppCompatActivity {
         startActivityForResult(intent, CAMERA_IMAGE_REQUEST_CODE);
     }
 
+    // 이미지 가져오기, galleryActivity와 유사
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
