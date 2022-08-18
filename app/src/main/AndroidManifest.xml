@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.imageclassifier"
+    package="com.example.skininjuryapplication"
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature
@@ -13,16 +13,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ImageClassifier"
+        android:theme="@style/Theme.SkinInjuryApplication"
         tools:targetApi="31">
         <activity
-            android:name=".CameraActivity"
+            android:name="com.example.skininjuryapplication.CameraActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GalleryActivity"
+            android:name="com.example.skininjuryapplication.GalleryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.skininjuryapplication.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +33,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.imageclassifier"
+            android:authorities="com.example.skininjuryapplication"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
