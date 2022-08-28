@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "869110266823",
+    "project_id": "skininjuryapplication-f5634",
+    "storage_bucket": "skininjuryapplication-f5634.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869110266823:android:c96a18071868cb116277e2",
+        "android_client_info": {
+          "package_name": "com.example.skininjuryapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "869110266823-i7blrukavkt30tr9ah2g46tno7ndbbsv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6A7j4Toz0NObz2YUK2HF2Dav14pSPBtk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "869110266823-i7blrukavkt30tr9ah2g46tno7ndbbsv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
