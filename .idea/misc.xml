@@ -3,10 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_camera.xml" value="0.34479166666666666" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_community.xml" value="0.18857142857142858" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_login.xml" value="0.34479166666666666" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_main.xml" value="0.34479166666666666" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_register.xml" value="0.2857142857142857" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_register_atctivity.xml" value="0.34479166666666666" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/item_list.xml" value="0.1" />
       </map>
     </option>
   </component>

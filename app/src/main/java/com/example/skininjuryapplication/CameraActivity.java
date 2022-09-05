@@ -50,9 +50,9 @@ public class CameraActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
 
         cls = new ClassifierWithModel(this);
-        try{
+        try {
             cls.init();
-        }catch (IOException ioe){
+        } catch (IOException ioe){
             ioe.printStackTrace();
         }
 
@@ -65,7 +65,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     @Override
-    //CameraAcitivy 종료 방지 -> 이미지 정상 로드 불가능
+    //CameraActivity 종료 방지 -> 이미지 정상 로드 불가능
     protected void onSaveInstanceState(@NonNull Bundle outState){
         //액티비티가 종료될 때 호출
         //앱이 다시 실행되었을 때 저장 값 사용 가능
@@ -79,6 +79,7 @@ public class CameraActivity extends AppCompatActivity {
         //사용자에게 보여주면 되므로 앱에서만 접근할 수 있는 영역에 저장
         File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                 "picture.jpg");
+        if(file.exists()) file.delete();
         selectedImageUri = FileProvider.getUriForFile(this, getPackageName(), file);
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
