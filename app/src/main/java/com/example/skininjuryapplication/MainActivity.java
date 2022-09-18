@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.example.skininjuryapplication.community.CommunityActivity;
+import com.example.skininjuryapplication.community.CommunityChatActivity;
 import com.example.skininjuryapplication.user.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -43,14 +43,13 @@ public class CommunityAdapter extends BaseAdapter {
         convertView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_community, parent, false);
         // 커뮤니티 view
-        ImageView listImage = (ImageView) convertView.findViewById(R.id.list_image);
         TextView listTitle = (TextView) convertView.findViewById(R.id.list_title);
-        TextView listUser = (TextView) convertView.findViewById(R.id.list_name);
+        TextView listText = (TextView) convertView.findViewById(R.id.list_text);
         // 현재 position의 Community Data
         CommunityList communitylist = mData.get(position);
         // 데이터 설정
         listTitle.setText(communitylist.getTitle());
-        listUser.setText(communitylist.getName());
+        listText.setText(communitylist.getText());
         return convertView;
     }
 }
