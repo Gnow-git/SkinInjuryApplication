@@ -1,6 +1,5 @@
 package com.example.skininjuryapplication;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -17,14 +16,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.skininjuryapplication.R;
 import com.example.skininjuryapplication.tflite.ClassifierWithModel;
 
 import java.io.IOException;
 import java.util.Locale;
 
 public class GalleryActivity extends AppCompatActivity {
-    public static final int GALLERY_IMAGE_REQUEST_CODE =1;  // 요청에 사용할 코드
+    public static final int GALLERY_IMAGE_REQUEST_CODE = 1;  // 요청에 사용할 코드
     public static final String TAG = "[IC]GalleryActivity";
 
     private ClassifierWithModel cls;    //tflite 분류 모델
@@ -32,7 +30,7 @@ public class GalleryActivity extends AppCompatActivity {
     private TextView textView;  //추론 결과 출력
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
