@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.example.skininjuryapplication.community.CommunityActivity;
 import com.example.skininjuryapplication.community.CommunityChatActivity;
+import com.example.skininjuryapplication.map.GoogleMapActivity;
 import com.example.skininjuryapplication.user.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -47,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
         Button btn_community = findViewById(R.id.btn_community);
         btn_community.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, CommunityActivity.class);
+            startActivity(intent);
+        });
+
+        Button btn_googlemap = findViewById(R.id.btn_googlemap);
+        btn_googlemap.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, GoogleMapActivity.class);
             startActivity(intent);
         });
 

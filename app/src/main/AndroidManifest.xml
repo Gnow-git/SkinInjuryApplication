@@ -16,6 +16,9 @@
         android:theme="@style/Theme.SkinInjuryApplication"
         tools:targetApi="31">
         <activity
+            android:name=".map.GoogleMapActivity"
+            android:exported="false" />
+        <activity
             android:name=".community.CommunityChatActivity"
             android:exported="false" />
         <activity
@@ -41,7 +44,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -52,6 +55,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBsA4Otre3cql2juwPh4MuCQgmVGipa_3k" />
+        
     </application>
 
 </manifest>
