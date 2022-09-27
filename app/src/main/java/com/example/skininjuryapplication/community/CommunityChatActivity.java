@@ -3,10 +3,12 @@ package com.example.skininjuryapplication.community;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.example.skininjuryapplication.R;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -16,9 +18,10 @@ import com.google.firebase.database.FirebaseDatabase;
 public class CommunityChatActivity extends AppCompatActivity {
 
     private DatabaseReference mFirebaseDatabaseReference;
+    private ImageView mImageEdit;
     private EditText mTitleEditText;
     private EditText mMessageEditText;
-    public static final String MESSAGE_CHILD = "messages";
+    public static final String MESSAGE_CHILD = "List";
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {

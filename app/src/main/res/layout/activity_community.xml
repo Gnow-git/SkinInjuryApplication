@@ -10,12 +10,12 @@
      android:id="@+id/list_recycler_view"
      android:layout_width="match_parent"
      android:layout_height="0dp"
-     android:layout_marginBottom="537dp"
-     android:layout_weight="1"
      app:layout_constraintBottom_toBottomOf="parent"
      app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.0"
      app:layout_constraintStart_toStartOf="parent"
-     app:layout_constraintTop_toTopOf="parent" />
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintVertical_bias="0.0" />
 
  <Button
      android:id="@+id/editButton"
@@ -26,9 +26,8 @@
      android:text="게시물 작성"
      app:layout_constraintBottom_toBottomOf="parent"
      app:layout_constraintEnd_toEndOf="parent"
-     app:layout_constraintHorizontal_bias="0.498"
      app:layout_constraintStart_toStartOf="parent"
-     app:layout_constraintTop_toBottomOf="@+id/list_recycler_view"
-     app:layout_constraintVertical_bias="0.967" />
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintVertical_bias="1"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

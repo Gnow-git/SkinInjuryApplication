@@ -1,105 +1,76 @@
 package com.example.skininjuryapplication.community;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.skininjuryapplication.R;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 
 public class CommunityActivity extends AppCompatActivity {
-    // 실시간 데이터 갱신
 
-    private DatabaseReference mFirebaseDatabaseReference;
-    private FirebaseRecyclerAdapter<CommunityList, CommunityViewHolder> mFirebaseAdapter;
-    public static final String MESSAGE_CHILD = "messages";
-
-    // 리사이클러뷰에 보이게하기 위한 ViewHolder
-    public static class CommunityViewHolder extends RecyclerView.ViewHolder {
-
-        TextView mTitleEditText; // 제목
-        TextView mMessageEditText;  // 내용
-
-        public CommunityViewHolder(View v) {
-            super(v);
-            mTitleEditText = itemView.findViewById(R.id.list_title);
-            mMessageEditText = itemView.findViewById(R.id.list_text);
-        }
-    }
-
-    private RecyclerView mCommunityRecyclerView;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<CommunityList> arrayList;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
 
-        mCommunityRecyclerView = findViewById(R.id.list_recycler_view);
+        recyclerView = findViewById(R.id.list_recycler_view);   // recyclerview 연결
+        recyclerView.setHasFixedSize(true); /// recyclerview 성능 강화
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        arrayList = new ArrayList<>();  // CommunityList 객체를 담을 arraylist(adapter 쪽으로)
 
-        // Firebase 실시간 데이터베이스 초기화
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance();  // firebase database 연동
 
-        // 쿼리 수행 위치
-        Query query = mFirebaseDatabaseReference.child(MESSAGE_CHILD);
-
-        // 옵션
-        FirebaseRecyclerOptions<CommunityList> options =
-                new FirebaseRecyclerOptions.Builder<CommunityList>()
-                        .setQuery(query, CommunityList.class)
-                        .build();
-
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<CommunityList,
-                CommunityViewHolder>(options) {
+        databaseReference = database.getReference("List");  // DB TABLE 연결
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            protected void onBindViewHolder(CommunityViewHolder holder,
-                                            int position, CommunityList model) {
-                holder.mTitleEditText.setText(model.getTitle());
-                holder.mMessageEditText.setText(model.getText());
-            }
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // firebase database의 data를 받아오는 곳.
+                arrayList.clear();  // 기존 배열리스트 초기화
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {  // 반복문을 통해 데이터 리스트 추출
+                    CommunityList communityList = snapshot.getValue(CommunityList.class);   // 만들어둔 객체에 데이터 담기
+                    arrayList.add(communityList);   // 담은 데이터를 배열리스트에 넣고 리사이클러뷰로 보낼 준비
+                }
+                adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+        }
 
             @Override
-            public CommunityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_community, parent, false);
-                return new CommunityViewHolder(view);
+            public void onCancelled(@NonNull DatabaseError error) {
+                // DB를 가져오던 중 에러 발생 시
+                Log.e("CommunityActivity", String.valueOf(error.toException()));    // 에러문 출력
             }
-        };
+        });
 
-        // 리사이클러뷰에 레이아웃 매니저와 어댑터 설정
-        mCommunityRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mCommunityRecyclerView.setAdapter(mFirebaseAdapter);
+        adapter = new CommunityAdapter(arrayList, this);    //CommunityAdapter의 CommunityAdapter로 접근
+        recyclerView.setAdapter(adapter);   // recyclerview에 adapter 연결
 
-        Button editBtn = findViewById(R.id.editButton);    // 게시물 작성 버튼
+
+        // 게시물 작성 버튼
+        Button editBtn = findViewById(R.id.editButton);
         editBtn.setOnClickListener(view -> {
             Intent i = new Intent(CommunityActivity.this, CommunityChatActivity.class);
             startActivity(i);
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // FirebaseRecyclerAdapter 실시간 쿼리 시작
-        mFirebaseAdapter.startListening();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // FirebaseRecyclerAdapter 실시간 쿼리 중지
-        mFirebaseAdapter.stopListening();
     }
 }

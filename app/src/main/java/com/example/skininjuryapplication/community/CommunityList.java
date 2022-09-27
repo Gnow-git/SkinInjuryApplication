@@ -1,8 +1,10 @@
 package com.example.skininjuryapplication.community;
 
-// 모델 클래스 작성
+// 게시글 리스트로 표현될 모델 클래스 작성
 public class CommunityList {
+
     // 캡슐화를 위해 접근 지정자 private로 지정
+    private String profile; // 사진
     private String id;  // DB에 저장할 ID
     private String title;   // 제목
     private String text;    // 내용
@@ -17,6 +19,15 @@ public class CommunityList {
     }
 
     // 각 속성에 접근을 위한 getter, setter 메서드 추가
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
     public String getId() {
         return id;
     }
