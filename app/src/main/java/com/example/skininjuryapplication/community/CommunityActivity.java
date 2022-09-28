@@ -1,4 +1,4 @@
-package com.example.skininjuryapplication.community;
+package com.example.skininjuryapplication.community ;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 
 import com.example.skininjuryapplication.R;
@@ -62,9 +64,9 @@ public class CommunityActivity extends AppCompatActivity {
             }
         });
 
+        // 어댑터 설정
         adapter = new CommunityAdapter(arrayList, this);    //CommunityAdapter의 CommunityAdapter로 접근
         recyclerView.setAdapter(adapter);   // recyclerview에 adapter 연결
-
 
         // 게시물 작성 버튼
         Button editBtn = findViewById(R.id.editButton);
