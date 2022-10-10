@@ -38,6 +38,7 @@ public class CommunityChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 CommunityList chatMessage = new CommunityList(mTitleEditText.getText().toString(),
                         mMessageEditText.getText().toString());
+                // 나중에 push -> login id로 변경
                 mFirebaseDatabaseReference.child(MESSAGE_CHILD).push().setValue(chatMessage);
                 mTitleEditText.setText("");
                 mMessageEditText.setText("");

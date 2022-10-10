@@ -59,7 +59,6 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.Cust
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("클릭 되었습니다.");
                 
                 // CommunityViewActivity.class에 title, text 전달
                 String mtitle = holder.list_title.getText().toString();

@@ -16,6 +16,17 @@
         android:theme="@style/Theme.SkinInjuryApplication"
         tools:targetApi="31">
         <activity
+            android:name=".map.GoogleMapSearchActivity"
+            android:exported="true" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity
             android:name=".community.CommunityViewActivity"
             android:exported="false" />
         <activity
@@ -23,18 +34,20 @@
             android:exported="false" />
         <activity
             android:name=".community.CommunityChatActivity"
-            android:exported="false" />
+            android:exported="false" >
+
+        </activity>
         <activity
             android:name=".community.CommunityActivity"
-            android:exported="false" />
+            android:exported="false" >
+
+
+        </activity>
         <activity
             android:name=".user.LoginActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".user.RegisterActivity"
@@ -63,5 +76,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBsA4Otre3cql2juwPh4MuCQgmVGipa_3k" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>

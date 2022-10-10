@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.skininjuryapplication.R;
-
+// 게시글 상세보기 Activity, 추후에 수정 삭제 기능 추가할 것
 public class CommunityViewActivity extends AppCompatActivity {
     private Intent intent;
     String mtitle, mtext;
