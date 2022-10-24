@@ -15,6 +15,8 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.skininjuryapplication.R;
@@ -25,6 +27,8 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,7 +51,7 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
         mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.googleMap);
         mapFragment.getMapAsync(this);
 
-
+        
         // 전달 받은 값 textview에 출력
         intent = getIntent();
 
