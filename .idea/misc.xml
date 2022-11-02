@@ -16,11 +16,11 @@
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_community_chat.xml" value="0.2857142857142857" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_community_view.xml" value="0.30913978494623656" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_gallery.xml" value="0.37135416666666665" />
-        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_google_map.xml" value="0.25" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_google_map.xml" value="0.18857142857142858" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_google_map_list.xml" value="0.1" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_google_map_search.xml" value="0.2857142857142857" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_login.xml" value="0.2857142857142857" />
-        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_main.xml" value="0.42857142857142855" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_main.xml" value="0.18857142857142858" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_register.xml" value="0.2857142857142857" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_register_atctivity.xml" value="0.34479166666666666" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/item_comment.xml" value="0.34479166666666666" />
@@ -33,4 +33,11 @@
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.18857142857142858" />
+      </ProjectState>
+    </option>
+  </component>
 </project>
