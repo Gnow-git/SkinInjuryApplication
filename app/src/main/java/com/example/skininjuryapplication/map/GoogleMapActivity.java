@@ -47,14 +47,15 @@ import java.util.Locale;
 
 
 public class GoogleMapActivity extends AppCompatActivity
-        implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback{
+        implements OnMapReadyCallback,
+        ActivityCompat.OnRequestPermissionsResultCallback{
     // 메소드 실행 : onCreate > onStart > onStart:call > onMapReady > startLocationUpdates : call
     private FragmentManager fragmentManager;
     private MapFragment mapFragment;
     private Intent intent;
 
     String mapName, mapAddress;
-    protected double lat, lon;
+    protected double latitude, longitude;
 
     private GoogleMap mMap;
     private Marker currentMarker = null;
@@ -68,6 +69,9 @@ public class GoogleMapActivity extends AppCompatActivity
     사용한 요청을 구별하기 위해 사용됩니다.**/
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     boolean needRequest = false;
+
+    /** 카메라 움직임 제어 **/
+    private boolean cameraControl = false;
 
     // 앱을 실행하기 위해 필요한 퍼미션을 정의합니다.
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION,
@@ -107,6 +111,7 @@ public class GoogleMapActivity extends AppCompatActivity
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        // 구글 맵 프래그먼트 관리
         fragmentManager = getFragmentManager();
         mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.googleMap);
         mapFragment.getMapAsync(this);
@@ -120,7 +125,7 @@ public class GoogleMapActivity extends AppCompatActivity
         System.out.println("이름: " + mapName);
         System.out.println("주소: " + mapAddress);
 
-        // 전달 받은 주소 -> 좌표로 변경
+        // GoogleMapSearchActivity에서 전달 받은 주소 -> 좌표로 변경
         Geocoder geocoder = new Geocoder(this);
         List<Address> mResultList = null;
         String Add = mapAddress;
@@ -129,8 +134,8 @@ public class GoogleMapActivity extends AppCompatActivity
             if(Add != null){
                 mResultList = geocoder.getFromLocationName(Add, 1);
                 if(mResultList.size()!=0){
-                    lat = mResultList.get(0).getLatitude();
-                    lon = mResultList.get(0).getLongitude();
+                    latitude = mResultList.get(0).getLatitude();
+                    longitude = mResultList.get(0).getLongitude();
                     System.out.println("변환 주소:" + mResultList);
                 }
             }
@@ -140,6 +145,8 @@ public class GoogleMapActivity extends AppCompatActivity
             e.printStackTrace();
             System.out.println("주소를 불러오지 못했습니다.");
         }
+        /** setCurrentLocation에 맞게 변경 **/
+        //setCurrentLocation(location, mapName, mapAddress);
         // 전달 받은 주소 좌표 변경 끝
 
         // 지도 검색 버튼 구현
@@ -151,15 +158,31 @@ public class GoogleMapActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        Log.d(TAG,"onStart");
+
+        if(checkPermission()) {
+            Log.d(TAG, "onStart : call mFusedLocationClient.requestLocationUpdates");
+            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+
+            if(mMap!=null)
+                mMap.setMyLocationEnabled(true);
+        }
+    }
+
+    @Override
     public void onMapReady(final GoogleMap googleMap) {
 
         Log.d(TAG, "OnMapReady:");
 
         mMap = googleMap;
+        setDefaultLocation();
 
         /** 런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자 보이기전에
         지도의 초기위치를 지정한 곳으로 이동 **/
-        setDefaultLocation();
+
 
         /** 런타임 퍼미션 처리
          1. 위치 퍼미션을 가지고 있는지 체크합니다.**/
@@ -204,14 +227,26 @@ public class GoogleMapActivity extends AppCompatActivity
             }
 
         }
-        // 지도 mylocation ui 설정
+        // 지도 location_button ui 설정
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
+        /** location_button 클릭시 카메라 추적 **/
+        mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                Toast.makeText(GoogleMapActivity.this, "MyLocation clicked", Toast.LENGTH_SHORT).show();
+                cameraControl = true;
+                return false;
+            }
+        });
+
+        /** map 터치시 카메라 추적 중지 **/
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
             public void onMapClick(LatLng latLng) {
                 Log.d(TAG, "onMapClick :");
+                cameraControl = false;
             }
         });
     }
@@ -236,7 +271,7 @@ public class GoogleMapActivity extends AppCompatActivity
                 Log.d(TAG, "onLocationResult:" + markerSnippet);
 
                     /** 현재 위치 계속 추적 -> 지도 터치시 작동 안하게 지정 **/
-                   // setCurrentLocation(location, markerTitle, markerSnippet);
+                    setCurrentLocation(location, markerTitle, markerSnippet);
                     mCurrentLocation = location;
 
             }
@@ -261,39 +296,11 @@ public class GoogleMapActivity extends AppCompatActivity
 
             Log.d(TAG, "startLocationUpdate : call mFusedLocationClient.requestLocationUpdates");
 
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback,
-                    Looper.myLooper());
+            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
             
             // my location button 표시
             if(checkPermission())
                 mMap.setMyLocationEnabled(true);
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        Log.d(TAG,"onStart");
-
-        if(checkPermission()) {
-            Log.d(TAG, "onStart : call mFusedLocationClient.requestLocationUpdates");
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
-
-            if(mMap!=null)
-                mMap.setMyLocationEnabled(true);
-        }
-    }
-
-    // 백버튼을 눌러 앱 종료시 메소드 실행
-    @Override
-    protected void onStop(){
-
-        super.onStop();
-
-        if(mFusedLocationClient != null) {
-            Log.d(TAG, "onStop :call stopLocationUpdates");
-            mFusedLocationClient.removeLocationUpdates(locationCallback);
         }
     }
 
@@ -347,11 +354,14 @@ public class GoogleMapActivity extends AppCompatActivity
 
         currentMarker = mMap.addMarker(markerOptions);
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
-        mMap.moveCamera(cameraUpdate);
+        /** location button 클릭시 cameraUp = true 카메라 실시간 추척**/
+        if(cameraControl == true){
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
+            mMap.moveCamera(cameraUpdate);
+        }
     }
 
-    // 기본 지정 위치
+    /** 기본 지정 위치 **/
     public void setDefaultLocation() {
 
         // 디폴트 위치, 충북대 소프트웨어
@@ -372,6 +382,7 @@ public class GoogleMapActivity extends AppCompatActivity
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
         mMap.moveCamera(cameraUpdate);
     }
+
 
     // 런타임 퍼미션 처리를 위한 메소드
     private boolean checkPermission() {
@@ -492,4 +503,23 @@ public class GoogleMapActivity extends AppCompatActivity
                 break;
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        onStop();
+    }
+
+    // 백버튼을 눌러 앱 종료시 메소드 실행
+    @Override
+    protected void onStop(){
+
+        super.onStop();
+
+        if(mFusedLocationClient != null) {
+            Log.d(TAG, "onStop :call stopLocationUpdates");
+            mFusedLocationClient.removeLocationUpdates(locationCallback);
+        }
+    }
+
 }
