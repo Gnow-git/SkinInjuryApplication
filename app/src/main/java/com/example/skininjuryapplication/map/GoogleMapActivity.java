@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import com.example.skininjuryapplication.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -72,6 +73,8 @@ public class GoogleMapActivity extends AppCompatActivity
 
     /** 카메라 움직임 제어 **/
     private boolean cameraControl = false;
+    /** location 버튼 이미지 변경 **/
+    private boolean btn_gps_image = false;
 
     // 앱을 실행하기 위해 필요한 퍼미션을 정의합니다.
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION,
@@ -168,6 +171,7 @@ public class GoogleMapActivity extends AppCompatActivity
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
 
             if(mMap!=null)
+                // 파란 점 표시
                 mMap.setMyLocationEnabled(true);
         }
     }
@@ -227,22 +231,33 @@ public class GoogleMapActivity extends AppCompatActivity
             }
 
         }
-        // 지도 location_button ui 설정
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        /** location_button 클릭시 카메라 추적 **/
-        mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+        // 지도 location_button ui 설정 -> custom으로 제작(btn_gps) -> false
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        // 지도 location_button custom
+        ImageButton btn_gps = findViewById(R.id.btn_gps);
+
+        btn_gps.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMyLocationButtonClick() {
-                Toast.makeText(GoogleMapActivity.this, "MyLocation clicked", Toast.LENGTH_SHORT).show();
-                cameraControl = true;
-                return false;
+            public void onClick(View v) {
+                
+                // location 버튼 이미지 변경
+                btn_gps.setSelected(!btn_gps.isSelected());
+
+                if(btn_gps.isSelected() == true){   // btn_gps가 선택되면
+                    cameraControl = true;   // 카메라 focusing
+                    Toast.makeText(GoogleMapActivity.this, "내 위치 활성화", Toast.LENGTH_SHORT).show();
+                }else   // 선택이 안되면
+                    cameraControl = false;  // 카메라 focusing 해제
+                Toast.makeText(GoogleMapActivity.this, "내 위치 비활성화", Toast.LENGTH_SHORT).show();
+
             }
         });
 
+
         /** map 터치시 카메라 추적 중지 **/
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
             @Override
             public void onMapClick(LatLng latLng) {
                 Log.d(TAG, "onMapClick :");
