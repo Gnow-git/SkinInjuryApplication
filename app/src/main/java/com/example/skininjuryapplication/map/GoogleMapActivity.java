@@ -73,8 +73,6 @@ public class GoogleMapActivity extends AppCompatActivity
 
     /** 카메라 움직임 제어 **/
     private boolean cameraControl = false;
-    /** location 버튼 이미지 변경 **/
-    private boolean btn_gps_image = false;
 
     // 앱을 실행하기 위해 필요한 퍼미션을 정의합니다.
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION,
@@ -248,10 +246,10 @@ public class GoogleMapActivity extends AppCompatActivity
                 if(btn_gps.isSelected() == true){   // btn_gps가 선택되면
                     cameraControl = true;   // 카메라 focusing
                     Toast.makeText(GoogleMapActivity.this, "내 위치 활성화", Toast.LENGTH_SHORT).show();
-                }else   // 선택이 안되면
+                }else if(btn_gps.isSelected() == false) { // 선택이 안되면
                     cameraControl = false;  // 카메라 focusing 해제
-                Toast.makeText(GoogleMapActivity.this, "내 위치 비활성화", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(GoogleMapActivity.this, "내 위치 비활성화", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -260,7 +258,9 @@ public class GoogleMapActivity extends AppCompatActivity
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
+                Toast.makeText(GoogleMapActivity.this, "내 위치 비활성화", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onMapClick :");
+                btn_gps.setSelected(false);
                 cameraControl = false;
             }
         });
