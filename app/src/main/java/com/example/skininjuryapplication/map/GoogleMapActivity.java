@@ -54,9 +54,11 @@ public class GoogleMapActivity extends AppCompatActivity
     private FragmentManager fragmentManager;
     private MapFragment mapFragment;
     private Intent intent;
-
     String mapName, mapAddress;
+    double lat, lon;
+
     protected double latitude, longitude;
+
 
     private GoogleMap mMap;
     private Marker currentMarker = null;
@@ -73,6 +75,10 @@ public class GoogleMapActivity extends AppCompatActivity
 
     /** 카메라 움직임 제어 **/
     private boolean cameraControl = false;
+
+    boolean search_activity = false;
+    boolean move_camera = false;    // 처음 실행시 카메라 이동
+    boolean move_camera2 = false;   // GoogleMapSearchActivity 리스트 클릭시
 
     // 앱을 실행하기 위해 필요한 퍼미션을 정의합니다.
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION,
@@ -91,11 +97,10 @@ public class GoogleMapActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_google_map);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-        setContentView(R.layout.activity_google_map);
 
         mLayout = findViewById(R.id.layout_google_map);
 
@@ -117,8 +122,14 @@ public class GoogleMapActivity extends AppCompatActivity
         mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.googleMap);
         mapFragment.getMapAsync(this);
 
-        
-        // 전달 받은 값 textview 에 출력
+        // 지도 검색 버튼 구현
+        Button btn_search = findViewById(R.id.btn_search);
+        btn_search.setOnClickListener(view -> {
+            Intent intent = new Intent(GoogleMapActivity.this, GoogleMapSearchActivity.class);
+            startActivity(intent);
+        });
+
+        // GoogleMapSearchActivity 에서 전달 받은 값 textview 에 출력
         intent = getIntent();
 
         mapName = intent.getStringExtra("map_Name");
@@ -126,37 +137,35 @@ public class GoogleMapActivity extends AppCompatActivity
         System.out.println("이름: " + mapName);
         System.out.println("주소: " + mapAddress);
 
-        // GoogleMapSearchActivity에서 전달 받은 주소 -> 좌표로 변경
-        Geocoder geocoder = new Geocoder(this);
+        /**GoogleMapSearchActivity 에서 전달 받은 주소 -> 좌표로 변경 **/
+        Geocoder search_geocoder = new Geocoder(this);
         List<Address> mResultList = null;
         String Add = mapAddress;
 
         try {
-            if(Add != null){
-                mResultList = geocoder.getFromLocationName(Add, 1);
+            if(mapAddress != null){
+                mResultList = search_geocoder.getFromLocationName(Add, 1);
                 if(mResultList.size()!=0){
-                    latitude = mResultList.get(0).getLatitude();
-                    longitude = mResultList.get(0).getLongitude();
+                    lat = mResultList.get(0).getLatitude();
+                    lon = mResultList.get(0).getLongitude();
                     System.out.println("변환 주소:" + mResultList);
+                    currentPosition = new LatLng(lat,lon);
+
+                    String markerSnippet = "위도:" + String.valueOf(lat) + "경도:" + String.valueOf(lon);
+
+                    search_activity = true;
+                    cameraControl = false;
+                    mCurrentLocation = location;
                 }
             }
-
-
         } catch (IOException e) {
+            System.out.println( mapAddress);
             e.printStackTrace();
             System.out.println("주소를 불러오지 못했습니다.");
-        }
-        /** setCurrentLocation에 맞게 변경 **/
-        //setCurrentLocation(location, mapName, mapAddress);
-        // 전달 받은 주소 좌표 변경 끝
+        } // 전달 받은 주소 좌표 변경 끝
 
-        // 지도 검색 버튼 구현
-        Button btn_search = findViewById(R.id.btn_search);
-        btn_search.setOnClickListener(view -> {
-            Intent intent = new Intent(GoogleMapActivity.this, GoogleMapSearchActivity.class);
-            startActivity(intent);
-        });
-    }
+
+    } // onCreate() 끝
 
     @Override
     protected void onStart() {
@@ -264,6 +273,27 @@ public class GoogleMapActivity extends AppCompatActivity
                 cameraControl = false;
             }
         });
+
+        /** GoogleMapSearchActivity 에서 상호작용시 **/
+        if(search_activity == true){
+            LatLng search_location = new LatLng(lat, lon);
+        /** 해당 장소가 없을 시 **/
+            if(search_location.longitude == 0.0 && search_location.latitude == 0){
+                setDefaultLocation();   // 본인 위치로 이동
+                Toast.makeText(GoogleMapActivity.this, "해당 주소를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+            MarkerOptions search_markerOptions = new MarkerOptions();
+            search_markerOptions.title(mapName);
+            search_markerOptions.snippet(mapAddress);
+            search_markerOptions.position(search_location);
+            search_markerOptions.draggable(true);
+            mMap.addMarker(search_markerOptions);
+            if(move_camera2 == false){
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(search_location, 16));
+                move_camera2 = true;
+            }
+        }
+
     }
 
     LocationCallback locationCallback = new LocationCallback() {
@@ -359,15 +389,17 @@ public class GoogleMapActivity extends AppCompatActivity
     public void setCurrentLocation(Location location, String markerTitle, String markerSnippet){
         if(currentMarker != null) currentMarker.remove();
 
-        LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(currentLatLng);
-        markerOptions.title(markerTitle);
-        markerOptions.snippet(markerSnippet);
-        markerOptions.draggable(true);
-
-        currentMarker = mMap.addMarker(markerOptions);
+            MarkerOptions markerOptions = new MarkerOptions();
+            LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            markerOptions.position(currentLatLng);
+            markerOptions.title(markerTitle);
+            markerOptions.snippet(markerSnippet);
+            markerOptions.draggable(true);
+            currentMarker = mMap.addMarker(markerOptions);
+            if(move_camera == false) {  // 처음 실행시 한번만 카메라 이동
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 16));
+                move_camera = true;
+            }
 
         /** location button 클릭시 cameraUp = true 카메라 실시간 추척**/
         if(cameraControl == true){
@@ -375,6 +407,7 @@ public class GoogleMapActivity extends AppCompatActivity
             mMap.moveCamera(cameraUpdate);
         }
     }
+
 
     /** 기본 지정 위치 **/
     public void setDefaultLocation() {
@@ -386,13 +419,13 @@ public class GoogleMapActivity extends AppCompatActivity
 
         if(currentMarker != null) currentMarker.remove();
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(DEFAULT_LOCATION);
-        markerOptions.title(markerTitle);
-        markerOptions.snippet(markerSnippet);
-        markerOptions.draggable(true);
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        currentMarker = mMap.addMarker(markerOptions);
+        MarkerOptions default_markerOptions = new MarkerOptions();
+        default_markerOptions.position(DEFAULT_LOCATION);
+        default_markerOptions.title(markerTitle);
+        default_markerOptions.snippet(markerSnippet);
+        default_markerOptions.draggable(true);
+        default_markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        currentMarker = mMap.addMarker(default_markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
         mMap.moveCamera(cameraUpdate);
@@ -536,5 +569,4 @@ public class GoogleMapActivity extends AppCompatActivity
             mFusedLocationClient.removeLocationUpdates(locationCallback);
         }
     }
-
 }
