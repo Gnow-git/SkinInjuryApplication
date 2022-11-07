@@ -77,7 +77,7 @@ public class GoogleMapActivity extends AppCompatActivity
     private boolean cameraControl = false;
 
     boolean search_activity = false;
-    boolean move_camera = false;    // 처음 실행시 카메라 이동
+    boolean move_camera = true;    // 처음 실행시 카메라 이동
     boolean move_camera2 = false;   // GoogleMapSearchActivity 리스트 클릭시
 
     // 앱을 실행하기 위해 필요한 퍼미션을 정의합니다.
@@ -155,6 +155,8 @@ public class GoogleMapActivity extends AppCompatActivity
 
                     search_activity = true;
                     cameraControl = false;
+                    move_camera = false;
+                    move_camera2 = true;
                     mCurrentLocation = location;
                 }
             }
@@ -288,9 +290,9 @@ public class GoogleMapActivity extends AppCompatActivity
             search_markerOptions.position(search_location);
             search_markerOptions.draggable(true);
             mMap.addMarker(search_markerOptions);
-            if(move_camera2 == false){
+            if(move_camera2 == true){
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(search_location, 16));
-                move_camera2 = true;
+                move_camera2 = false;
             }
         }
 
@@ -396,12 +398,13 @@ public class GoogleMapActivity extends AppCompatActivity
             markerOptions.snippet(markerSnippet);
             markerOptions.draggable(true);
             currentMarker = mMap.addMarker(markerOptions);
-            if(move_camera == false) {  // 처음 실행시 한번만 카메라 이동
+
+            if(move_camera == true) {  // 처음 실행시 한번만 카메라 이동
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 16));
-                move_camera = true;
+                move_camera = false;
             }
 
-        /** location button 클릭시 cameraUp = true 카메라 실시간 추척**/
+        /** location button 클릭시 cameraControl = true 카메라 실시간 추척**/
         if(cameraControl == true){
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
             mMap.moveCamera(cameraUpdate);
