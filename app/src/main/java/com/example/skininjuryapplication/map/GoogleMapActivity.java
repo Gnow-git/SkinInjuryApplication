@@ -49,7 +49,8 @@ import java.util.Locale;
 
 public class GoogleMapActivity extends AppCompatActivity
         implements OnMapReadyCallback,
-        ActivityCompat.OnRequestPermissionsResultCallback{
+        ActivityCompat.OnRequestPermissionsResultCallback,
+        BottomSheetDialog.BottomSheetListener{
     // 메소드 실행 : onCreate > onStart > onStart:call > onMapReady > startLocationUpdates : call
     private FragmentManager fragmentManager;
     private MapFragment mapFragment;
@@ -166,6 +167,15 @@ public class GoogleMapActivity extends AppCompatActivity
             System.out.println("주소를 불러오지 못했습니다.");
         } // 전달 받은 주소 좌표 변경 끝
 
+        /** BottomSheet**/
+        Button buttonOpenBottomSheet = findViewById(R.id.button_open_bottom_sheet);
+        buttonOpenBottomSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
+               bottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
+            }
+        });
 
     } // onCreate() 끝
 
@@ -571,5 +581,10 @@ public class GoogleMapActivity extends AppCompatActivity
             Log.d(TAG, "onStop :call stopLocationUpdates");
             mFusedLocationClient.removeLocationUpdates(locationCallback);
         }
+    }
+
+    @Override
+    public void onButtonClicked(String text) {
+
     }
 }
