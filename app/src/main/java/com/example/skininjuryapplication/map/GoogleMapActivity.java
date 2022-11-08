@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -50,7 +51,10 @@ import java.util.Locale;
 public class GoogleMapActivity extends AppCompatActivity
         implements OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback,
-        BottomSheetDialog.BottomSheetListener{
+        GoogleMap.OnMarkerClickListener{
+
+    BottomSheetDialog bottomSheetDialog;
+
     // 메소드 실행 : onCreate > onStart > onStart:call > onMapReady > startLocationUpdates : call
     private FragmentManager fragmentManager;
     private MapFragment mapFragment;
@@ -130,53 +134,16 @@ public class GoogleMapActivity extends AppCompatActivity
             startActivity(intent);
         });
 
-        // GoogleMapSearchActivity 에서 전달 받은 값 textview 에 출력
-        intent = getIntent();
+        googleMapSearchProcess();
 
-        mapName = intent.getStringExtra("map_Name");
-        mapAddress = intent.getStringExtra("map_Address");
-        System.out.println("이름: " + mapName);
-        System.out.println("주소: " + mapAddress);
-
-        /**GoogleMapSearchActivity 에서 전달 받은 주소 -> 좌표로 변경 **/
-        Geocoder search_geocoder = new Geocoder(this);
-        List<Address> mResultList = null;
-        String Add = mapAddress;
-
-        try {
-            if(mapAddress != null){
-                mResultList = search_geocoder.getFromLocationName(Add, 1);
-                if(mResultList.size()!=0){
-                    lat = mResultList.get(0).getLatitude();
-                    lon = mResultList.get(0).getLongitude();
-                    System.out.println("변환 주소:" + mResultList);
-                    currentPosition = new LatLng(lat,lon);
-
-                    String markerSnippet = "위도:" + String.valueOf(lat) + "경도:" + String.valueOf(lon);
-
-                    search_activity = true;
-                    cameraControl = false;
-                    move_camera = false;
-                    move_camera2 = true;
-                    mCurrentLocation = location;
-                }
-            }
-        } catch (IOException e) {
-            System.out.println( mapAddress);
-            e.printStackTrace();
-            System.out.println("주소를 불러오지 못했습니다.");
-        } // 전달 받은 주소 좌표 변경 끝
-
-        /** BottomSheet**/
+        /** BottomSheet
         Button buttonOpenBottomSheet = findViewById(R.id.button_open_bottom_sheet);
         buttonOpenBottomSheet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
-               bottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
-            }
-        });
 
+            }
+        });**/
     } // onCreate() 끝
 
     @Override
@@ -274,7 +241,6 @@ public class GoogleMapActivity extends AppCompatActivity
             }
         });
 
-
         /** map 터치시 카메라 추적 중지 **/
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -294,6 +260,7 @@ public class GoogleMapActivity extends AppCompatActivity
                 setDefaultLocation();   // 본인 위치로 이동
                 Toast.makeText(GoogleMapActivity.this, "해당 주소를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
+
             MarkerOptions search_markerOptions = new MarkerOptions();
             search_markerOptions.title(mapName);
             search_markerOptions.snippet(mapAddress);
@@ -306,6 +273,7 @@ public class GoogleMapActivity extends AppCompatActivity
             }
         }
 
+        mMap.setOnMarkerClickListener(this);
     }
 
     LocationCallback locationCallback = new LocationCallback() {
@@ -335,6 +303,7 @@ public class GoogleMapActivity extends AppCompatActivity
         }
     };
 
+    /** 권한 확인**/
     private void startLocationUpdate() {
         if (!checkLocationServicesStatus()){
             Log.d(TAG, "sartLocationUpdates: call showDialogForLocationServiceSetting");
@@ -361,6 +330,7 @@ public class GoogleMapActivity extends AppCompatActivity
         }
     }
 
+    /** 지오코더 변환 함수 **/
     public String getCurrentAddress(LatLng latLng) {
         // 지오코더로 GPS를 주소로 변환
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -391,6 +361,7 @@ public class GoogleMapActivity extends AppCompatActivity
         }
     }
 
+    /** GPS 활성화 확인 **/
     public boolean checkLocationServicesStatus() {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -398,6 +369,7 @@ public class GoogleMapActivity extends AppCompatActivity
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
+    /** 현재 위치 찾기 **/
     public void setCurrentLocation(Location location, String markerTitle, String markerSnippet){
         if(currentMarker != null) currentMarker.remove();
 
@@ -583,8 +555,74 @@ public class GoogleMapActivity extends AppCompatActivity
         }
     }
 
-    @Override
+/*    @Override
     public void onButtonClicked(String text) {
 
+    }*/
+
+    /** GoogleMapSearchActivity 에서 리스트 항목 클릭 **/
+    public void googleMapSearchProcess(){
+
+
+        intent = getIntent();
+
+        mapName = intent.getStringExtra("map_Name");
+        mapAddress = intent.getStringExtra("map_Address");
+        System.out.println("이름: " + mapName);
+        System.out.println("주소: " + mapAddress);
+
+        Geocoder search_geocoder = new Geocoder(this);
+        List<Address> mResultList = null;
+        String Add = mapAddress;
+
+        try {
+            if(mapAddress != null){
+                mResultList = search_geocoder.getFromLocationName(Add, 1);
+                if(mResultList.size()!=0){
+                    lat = mResultList.get(0).getLatitude();
+                    lon = mResultList.get(0).getLongitude();
+                    System.out.println("변환 주소:" + mResultList);
+                    currentPosition = new LatLng(lat,lon);
+
+                    String markerSnippet = "위도:" + String.valueOf(lat) + "경도:" + String.valueOf(lon);
+
+                    search_activity = true; // GoogleMapSearchActivity 에서 넘어갈 경우 -> onMapReady
+                    cameraControl = false;
+                    move_camera = false;
+                    move_camera2 = true;
+                    mCurrentLocation = location;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println( mapAddress);
+            e.printStackTrace();
+            System.out.println("주소를 불러오지 못했습니다.");
+        } // 전달 받은 주소 좌표 변경 끝
+    }
+
+    /** 마커 클릭 메소드 **/
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        System.out.println(mapName);
+        if(mapName == null ){   // 현재 위치는 bottom_sheet 에 안나타나게 지정
+            Toast.makeText(this, "현재 위치는 나타낼 수 없습니다.", Toast.LENGTH_SHORT).show();
+        }else if(mapName != null){  // 검색된 마커 클릭시 GoogleMapSearchActivity 의 정보를 bottom_sheet 로 전달
+            Toast.makeText(this, mapName, Toast.LENGTH_SHORT).show();
+
+            androidx.fragment.app.FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+
+            Bundle bundle = new Bundle();
+            String map_name = mapName;
+            bundle.putString("map_name",mapName);
+            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
+            bottomSheetDialog.setArguments(bundle);
+            bottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
+
+        }else{
+            Toast.makeText(this, "해당 위치 정보를 불러 올 수 없습니다.", Toast.LENGTH_SHORT).show();
+        }
+
+        return false;
     }
 }

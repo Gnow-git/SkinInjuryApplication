@@ -7,13 +7,15 @@ public class MapList {
     private String id;  // DB에 저장할 ID;
     private String mapName; // 장소 이름
     private String address; // 장소
+    private String mapNum;  // 장소 번호
 
     // 객체 초기화
     public MapList() { }
 
-    public MapList(String mapName, String address) {
+    public MapList(String mapName, String address, String mapNum) {
         this.mapName = mapName;
         this.address = address;
+        this.mapNum = mapNum;
     }
     
     // 각 속성 접근을 위한 getter, setter 메서드 추가
@@ -41,6 +43,14 @@ public class MapList {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getMapNum() {
+        return mapNum;
+    }
+
+    public void setMapNum(String mapNum) {
+        this.mapNum = mapNum;
     }
 
     // 디버깅, 로그에서 확인을 위한 메서드 정의
