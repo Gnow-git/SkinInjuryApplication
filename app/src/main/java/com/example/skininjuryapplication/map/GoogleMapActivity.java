@@ -555,11 +555,6 @@ public class GoogleMapActivity extends AppCompatActivity
         }
     }
 
-/*    @Override
-    public void onButtonClicked(String text) {
-
-    }*/
-
     /** GoogleMapSearchActivity 에서 리스트 항목 클릭 **/
     public void googleMapSearchProcess(){
 
@@ -603,7 +598,6 @@ public class GoogleMapActivity extends AppCompatActivity
     /** 마커 클릭 메소드 **/
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
-        System.out.println(mapName);
         if(mapName == null ){   // 현재 위치는 bottom_sheet 에 안나타나게 지정
             Toast.makeText(this, "현재 위치는 나타낼 수 없습니다.", Toast.LENGTH_SHORT).show();
         }else if(mapName != null){  // 검색된 마커 클릭시 GoogleMapSearchActivity 의 정보를 bottom_sheet 로 전달
