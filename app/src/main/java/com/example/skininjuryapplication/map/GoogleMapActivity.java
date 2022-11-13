@@ -53,7 +53,7 @@ public class GoogleMapActivity extends AppCompatActivity
         ActivityCompat.OnRequestPermissionsResultCallback,
         GoogleMap.OnMarkerClickListener{
 
-    BottomSheetDialog bottomSheetDialog;
+    MapBottomSheetDialog bottomSheetDialog;
 
     // 메소드 실행 : onCreate > onStart > onStart:call > onMapReady > startLocationUpdates : call
     private FragmentManager fragmentManager;
@@ -136,14 +136,6 @@ public class GoogleMapActivity extends AppCompatActivity
 
         googleMapSearchProcess();
 
-        /** BottomSheet
-        Button buttonOpenBottomSheet = findViewById(R.id.button_open_bottom_sheet);
-        buttonOpenBottomSheet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });**/
     } // onCreate() 끝
 
     @Override
@@ -609,9 +601,10 @@ public class GoogleMapActivity extends AppCompatActivity
             Bundle bundle = new Bundle();
             String map_name = mapName;
             bundle.putString("map_name",mapName);
-            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
+            MapBottomSheetDialog bottomSheetDialog = new MapBottomSheetDialog();
             bottomSheetDialog.setArguments(bundle);
             bottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
+
 
         }else{
             Toast.makeText(this, "해당 위치 정보를 불러 올 수 없습니다.", Toast.LENGTH_SHORT).show();
