@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
@@ -98,6 +99,7 @@ public class GoogleMapActivity extends AppCompatActivity
 
     private View mLayout;   // Snackbar 사용하기 위해서는 View가 필요(ex)Toast -> Context)
 
+    private BottomSheetBehavior mBottomSheetBehavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +137,8 @@ public class GoogleMapActivity extends AppCompatActivity
         });
 
         googleMapSearchProcess();
+
+
 
     } // onCreate() 끝
 

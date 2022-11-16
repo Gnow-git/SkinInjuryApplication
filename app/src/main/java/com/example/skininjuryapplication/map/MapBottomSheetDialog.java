@@ -68,7 +68,7 @@ public class MapBottomSheetDialog extends BottomSheetDialogFragment {
     }
 
 
-    @Override
+    /*@Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.setOnShowListener(dialogInterface -> {
@@ -99,7 +99,7 @@ public class MapBottomSheetDialog extends BottomSheetDialogFragment {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.heightPixels;
-    }
+    }*/
 
 
 

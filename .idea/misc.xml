@@ -8,6 +8,7 @@
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/drawable/btn_gps_selector.xml" value="0.1" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/drawable/button.xml" value="0.1" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.1165" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.166" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/drawable/ic_baseline_gps_off.xml" value="0.122" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/drawable/ic_baseline_gps_on.xml" value="0.1" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/drawable/ic_launcher_background.xml" value="0.255" />
@@ -23,7 +24,7 @@
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_google_map.xml" value="0.18857142857142858" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_google_map_list.xml" value="0.1" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_google_map_search.xml" value="0.2857142857142857" />
-        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_login.xml" value="0.2857142857142857" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_login.xml" value="0.18857142857142858" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_main.xml" value="0.18857142857142858" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_register.xml" value="0.2857142857142857" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_register_atctivity.xml" value="0.34479166666666666" />
@@ -44,7 +45,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.18857142857142858" />
+        <option name="scale" value="0.2857142857142857" />
       </ProjectState>
     </option>
   </component>
