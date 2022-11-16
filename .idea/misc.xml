@@ -15,7 +15,9 @@
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/drawable/ic_launcher_community.xml" value="0.236" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.255" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/drawable/ic_launcher_gallery.xml" value="0.2985" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/drawable/ic_launcher_logout.xml" value="0.1315" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/drawable/ic_launcher_phto_camera.xml" value="0.236" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/font/font.xml" value="0.1" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_camera.xml" value="0.34479166666666666" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_community.xml" value="0.1" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_community_chat.xml" value="0.2857142857142857" />
@@ -24,12 +26,13 @@
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_google_map.xml" value="0.18857142857142858" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_google_map_list.xml" value="0.1" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_google_map_search.xml" value="0.2857142857142857" />
-        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_login.xml" value="0.18857142857142858" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_login.xml" value="0.2857142857142857" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_main.xml" value="0.18857142857142858" />
-        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_register.xml" value="0.2857142857142857" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_register.xml" value="0.42857142857142855" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/activity_register_atctivity.xml" value="0.34479166666666666" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/bottom_sheet_layout.xml" value="0.1" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/bttom_sheet_googlemap_layout.xml" value="0.1" />
+        <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/dialog_pw.xml" value="0.18857142857142858" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/item_comment.xml" value="0.34479166666666666" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/item_commenty.xml" value="0.34479166666666666" />
         <entry key="..\:/Users/gnow/AndroidStudioProjects/SkinInjuryApplication/app/src/main/res/layout/item_community.xml" value="0.19827586206896552" />

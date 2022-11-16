@@ -2,25 +2,33 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="1080px"
     android:layout_height="match_parent"
     android:background="@drawable/signin"
+    android:layout_gravity="center_horizontal"
     tools:context=".user.RegisterActivity">
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="142dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="157dp"
+        android:gravity="center"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:fontFamily="@font/bmjua_font"
             android:text="회원가입"
             android:textSize="40dp"
             android:textStyle="bold" />
@@ -30,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="55dp"
+            android:fontFamily="@font/bmjua_font"
             android:text="앱을 이용하시려면 회원가입을 해주시길 바랍니다."
             android:textColor="#716666" />
 
@@ -45,13 +54,14 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_baseline_lock_24" />
+                android:background="@drawable/ic_baseline_email_24" />
 
             <EditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:fontFamily="@font/bmjua_font"
                 android:hint="이메일을 입력하세요"
                 android:inputType="textEmailAddress"
                 android:paddingLeft="30dp" />
@@ -60,6 +70,72 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/name_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_baseline_name_24" />
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="이름을 입력하세요"
+                android:fontFamily="@font/bmjua_font"
+                android:paddingLeft="30dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/gender_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_baseline_gender_24" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <RadioButton
+                android:id="@+id/radio_men"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="15dp"
+                android:fontFamily="@font/bmjua_font"
+                android:text="남성" />
+
+            <RadioButton
+                android:id="@+id/radio_women"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:fontFamily="@font/bmjua_font"
+                android:text="여성" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <View
@@ -75,6 +151,31 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="비밀번호를 입력하세요"
+                android:fontFamily="@font/bmjua_font"
+                android:inputType="textPassword"
+                android:paddingLeft="30dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/password_check_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_baseline_email_24" />
+
+            <EditText
+                android:id="@+id/et_pwd_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="비밀번호를 다시 입력하세요"
+                android:fontFamily="@font/bmjua_font"
                 android:inputType="textPassword"
                 android:paddingLeft="30dp" />
         </LinearLayout>
@@ -87,7 +188,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="80dp"
             android:background="@drawable/loginbt"
-            android:text="가입 완료"
+            android:fontFamily="@font/bmjua_font"
+            android:text="가 입 완 료"
             android:textSize="20dp"
             android:textStyle="bold"
             android:textColor="@color/white"/>
@@ -112,6 +214,7 @@
             android:layout_margin="8dp"
             android:background="#00ff0000"
             android:text="로그인하기"
+            android:textStyle="bold"
             android:textColor="#FB7750" />
     </LinearLayout>
 
