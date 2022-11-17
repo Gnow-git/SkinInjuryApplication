@@ -1,10 +1,17 @@
 package com.example.skininjuryapplication;
 
-import android.annotation.SuppressLint;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.ColorSpace;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
@@ -12,26 +19,35 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Pair;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.skininjuryapplication.tflite.ClassifierWithModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class GalleryActivity extends AppCompatActivity {
     public static final String TAG = "[IC]GalleryActivity";
@@ -39,28 +55,17 @@ public class GalleryActivity extends AppCompatActivity {
 
     private ClassifierWithModel cls;
     private ImageView imageView;
-    private TextView textView;
-
-    final int CAMERA = 100; // 카메라 선택시 인텐트로 보내는 값
-    final int GALLERY = 101; // 갤러리 선택 시 인텐트로 보내는 값
-    int imgFrom; // 이미지 어디서 가져왔는지 (카메라 or 갤러리)
-    String imagePath = "";
-    @SuppressLint("SimpleDateFormat")
-    SimpleDateFormat imageDate = new SimpleDateFormat("yyyyMMdd_HHmmss");
-    Intent intent;
-
+    private TextView textView, textView2, textView3;
     ProgressDialog mProgressDialog;
-
-    File imageFile = null; // 카메라 선택 시 새로 생성하는 파일 객체
-    Uri imageUri;
-    Uri uri;
-    Bitmap bitmap1;
-
+    String imagePath, disease;
+    Uri selectedImage;
+    SimpleDateFormat imageDate = new SimpleDateFormat("yyyyMMdd_HHmmss");
+    // Firebase Storage 등록 문제 때문에 일단 주석 처리
     FirebaseStorage storage = FirebaseStorage.getInstance(); // 파이어베이스 저장소 객체
     StorageReference reference = null; // 저장소 레퍼런스 객체 : storage 를 사용해 저장 위치를 설정
-
-    @SuppressLint({"NonConstantResourceId", "QueryPermissionsNeeded"})
-
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    Uri selectedImageUri;   // 이미지를 받아올 Uri
+    String email = user.getEmail().toString();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,11 +73,18 @@ public class GalleryActivity extends AppCompatActivity {
 
         Button selectBtn = findViewById(R.id.selectBtn);
         selectBtn.setOnClickListener(v -> getImageFromGallery());
-        Button upload = findViewById(R.id.selectBtn);
-        upload.setOnClickListener(v -> uploadImage());
+        Button upload = findViewById(R.id.btnUpload);
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadImage();
+            }
+        });
 
         imageView = findViewById(R.id.imageView);
         textView = findViewById(R.id.textView);
+        textView2 = findViewById(R.id.textView2);
+        textView3 = findViewById(R.id.textView3);
 
         cls = new ClassifierWithModel(this);
         try {
@@ -83,23 +95,20 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
     private void uploadImage() {
-        //uri = getImageUri(getApplicationContext(), bitmap1);
+        // Firebase Storage 등록 문제 때문에 일단 주석 처리
         showProgressDialog("업로드 중");
         UploadTask uploadTask = null; // 파일 업로드하는 객체
         String timeStamp = imageDate.format(new Date()); // 중복 파일명을 막기 위한 시간스탬프
         String imageFileName = "IMAGE_" + timeStamp + "_.png"; // 파일명
-        reference = storage.getReference().child("item").child(imageFileName); // 이미지 파일 경로 지정 (/item/imageFileName)
-        //BitmapFactory.Options options = new BitmapFactory.Options();
-        //Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
-        uploadTask = reference.putFile(imageUri); // 업로드할 파일과 업로드할 위치 설정
-        //        파일 업로드 시작
+        reference = storage.getReference().child("item").child(email).child(imageFileName); // 이미지 파일 경로 지정 (/item/imageFileName)
+        uploadTask = reference.putFile(selectedImage); // 업로드할 파일과 업로드할 위치 설정
+
         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 //            업로드 성공 시 동작
                 hideProgressDialog();
                 Log.d(TAG, "onSuccess: upload");
-                //downloadUri(); // 업로드 성공 시 업로드한 파일 Uri 다운받기
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -109,44 +118,81 @@ public class GalleryActivity extends AppCompatActivity {
                 Log.d(TAG, "onFailure: upload");
             }
         });
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("안내");
+        builder.setMessage("이 버튼을 누르면 고객님의 정보가 우리의 앱 성능을 높이는 데 공헌할 것이라 믿습니다.\n" +
+                "사진을 저희 서버로 업로드하겠습니까?");
+        builder.setIcon(R.drawable.warning);
+
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Firebase Storage 등록 문제 때문에 일단 주석 처리
+                showProgressDialog("업로드 중");
+                UploadTask uploadTask = null; // 파일 업로드하는 객체
+                String timeStamp = imageDate.format(new Date()); // 중복 파일명을 막기 위한 시간스탬프
+                String imageFileName = "IMAGE_" + timeStamp + "_.png"; // 파일명
+                reference = storage.getReference().child("item").child(imageFileName); // 이미지 파일 경로 지정 (/item/imageFileName)
+                uploadTask = reference.putFile(selectedImage); // 업로드할 파일과 업로드할 위치 설정
+
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//            업로드 성공 시 동작
+                        hideProgressDialog();
+                        Log.d(TAG, "onSuccess: upload");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+//                업로드 실패 시 동작
+                        hideProgressDialog();
+                        Log.d(TAG, "onFailure: upload");
+                    }
+                });
+                Toast.makeText(GalleryActivity.this, "고객님의 공헌에 감사드립니다!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void getImageFromGallery(){
-        /*Intent intent = new Intent(Intent.ACTION_GET_CONTENT).setType("image/*");
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT).setType("image/*");
 //        Intent intent = new Intent(Intent.ACTION_PICK,
 //                MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(intent, GALLERY_IMAGE_REQUEST_CODE);*/
-        //intent = new Intent(Intent.ACTION_GET_CONTENT).setType("image/*");
-        //intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        intent.setType("image/*");
-        startActivityForResult(intent, GALLERY);
-
+        startActivityForResult(intent, GALLERY_IMAGE_REQUEST_CODE);
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == GALLERY) {
+        if (resultCode == Activity.RESULT_OK &&
+                requestCode == GALLERY_IMAGE_REQUEST_CODE) {
             if (data == null) {
                 return;
             }
 
-            imageUri = data.getData();
-            imagePath = data.getDataString();
-            //imageUri = data.getData();
+            selectedImage = data.getData();
             Bitmap bitmap = null;
-            //Bitmap bitmap1 = (Bitmap) data.getExtras().get("data");
+            imagePath = data.getDataString();
 
             try {
                 if(Build.VERSION.SDK_INT >= 29) {
                     ImageDecoder.Source src =
-                            ImageDecoder.createSource(getContentResolver(), imageUri);
+                            ImageDecoder.createSource(getContentResolver(), selectedImage);
                     bitmap = ImageDecoder.decodeBitmap(src);
                 } else {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
                 }
             } catch (IOException ioe) {
                 Log.e(TAG, "Failed to read Image", ioe);
@@ -154,40 +200,88 @@ public class GalleryActivity extends AppCompatActivity {
 
             if(bitmap != null) {
                 Pair<String, Float> output = cls.classify(bitmap);
+                //String resultStr = String.format(Locale.ENGLISH,
+                //"class : %s, prob : %.2f%%",
+                //output.first, output.second * 100);
                 String resultStr = String.format(Locale.ENGLISH,
-                        "class : %s, prob : %.2f%%",
+                        "병명 : %s, 확률 : %.2f%%",
                         output.first, output.second * 100);
 
+                disease = output.first;
                 textView.setText(resultStr);
                 imageView.setImageBitmap(bitmap);
-                //imageUri = getImageUri(getApplicationContext(), bitmap);
+                getCourseDetails(disease);
             }
 
         }
     }
 
-    /*private Uri getImageUri(Context applicationContext, Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        String path = MediaStore.Images.Media.insertImage(applicationContext.getContentResolver(), bitmap, "", null);
-        return Uri.parse(path);
+    private void getCourseDetails(String courseId) {
+        // url to post our data
+        String URL = "http://ourhosting0113.dothome.co.kr/config.php";
+
+        // creating a new variable for our request queue
+        RequestQueue queue = Volley.newRequestQueue(GalleryActivity.this);
+
+        // on below line we are calling a string
+        // request method to post the data to our API
+        // in this we are calling a post method.
+        StringRequest request = new StringRequest(Request.Method.POST, URL , new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    // on below line passing our response to json object.
+                    JSONObject jsonObject = new JSONObject(response);
+                    boolean success = jsonObject.getBoolean("success");
+                    // on below line we are checking if the response is null or not.
+                    if (!success) {
+                        // displaying a toast message if we get error
+                        Toast.makeText(GalleryActivity.this, "Please enter valid id.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // if we get the data then we are setting it in our text views in below line.
+                        textView2.setText(jsonObject.getString("symptom"));
+                        textView3.setText(jsonObject.getString("treatment"));
+                    }
+                    // on below line we are displaying
+                    // a success toast message.
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(GalleryActivity.this, "Fail to get course" + error, Toast.LENGTH_SHORT).show();
+
+            }
+
+        }) {
+            @Override
+            public String getBodyContentType() {
+                // as we are passing data in the form of url encoded
+                // so we are passing the content type below
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+
+                // below line we are creating a map for storing our values in key and value pair.
+                Map<String, String> params = new HashMap<String, String>();
+
+                // on below line we are passing our key and value pair to our parameters.
+                params.put("name", courseId);
+
+                // at last we are returning our params.
+                return params;
+            }
+        };
+
+        //request.setRetryPolicy(new com.android.volley.DefaultRetryPolicy(20000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        // below line is to make
+        // a json object request.
+        queue.add(request);
     }
-
-    private void getPath(Uri imageUri) {
-        String [] proj = {MediaStore.Images.Media.DATA};
-        CursorLoader cursorLoader = new CursorLoader(this, imageUri, proj, null, null, null);
-
-        Cursor cursor = cursorLoader.loadInBackground();
-        int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-
-        cursor.moveToFirst();
-
-        //System.out.println(cursor.getString(index));
-
-        //imageFile = new File(cursor.getString(index));
-
-        cursor.close();
-    }*/
 
     @Override
     protected void onDestroy() {
