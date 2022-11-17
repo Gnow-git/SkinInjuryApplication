@@ -6,128 +6,278 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/signin"
     tools:context="com.example.skininjuryapplication.MainActivity">
 
 
-    <ImageView
-        android:id="@+id/main_image"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/evnet_banner"
-        app:layout_constraintBottom_toTopOf="@+id/main_edit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.636" />
-
-    <EditText
-        android:id="@+id/main_edit"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="질환, 진료과, 병원명 검색"
-        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.917" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="40dp"
-        android:layout_height="44dp"
-        app:layout_constraintBottom_toBottomOf="@+id/main_edit"
-        app:layout_constraintEnd_toEndOf="@+id/main_edit"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/main_edit"
-        app:layout_constraintTop_toTopOf="@+id/main_edit"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@android:drawable/ic_menu_search" />
-
-    <GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:columnCount="3"
-        android:rowCount="2"
-        android:useDefaultMargins="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.53">
-
-        <Button
-            android:id="@+id/cameraBtn"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/ic_launcher_phto_camera" />
-
-        <Button
-            android:id="@+id/galleryBtn"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/ic_launcher_gallery"
-            />
-
-        <Button
-            android:id="@+id/btn_community"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/ic_launcher_community" />
-
-        <Button
-            android:id="@+id/btn_googlemap"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/ic_launcher_map" />
-
-        <Button
-            android:id="@+id/btn_logout"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/ic_launcher_logout" />
-
-        <Button
-            android:id="@+id/btn_details"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/ic_launcher_detail" />
-
-    </GridLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="41dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="140dp"
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/main_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:fontFamily="@font/bmjua_font"
+                android:text="환영합니다!"
+                android:textSize="30dp" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_notice"
-            android:layout_width="wrap_content"
+            android:id="@+id/banner_text"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:fontFamily="@font/bmjua_font"
+            android:text="현재 이벤트가 없습니다."
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@drawable/banner"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:layout_marginTop="30dp"/>
+
+        <LinearLayout
+            android:id="@+id/search_map"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:text="공지사항" />
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_recycler_view"
+            <TextView
+                android:id="@+id/main_edit"
+                android:layout_width="260dp"
+                android:layout_height="38dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/search_bar"
+                android:fontFamily="@font/bmjua_font"
+                android:gravity="center"
+                android:text="병 원 명 검 색"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/search_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/searchbtn"
+                app:srcCompat="@android:drawable/ic_menu_search" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bmjua_font"
+                android:layout_marginLeft="20dp"
+                android:text="주요 기능"
+                android:textSize="20dp" />
+
+            <GridLayout
+                android:id="@+id/gridLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:useDefaultMargins="true">
+
+                <LinearLayout
+                    android:id="@+id/cameraBtn"
+                    android:layout_width="160dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#ffffff"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/ic_launcher_phto_camera" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/main_camera"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:fontFamily="@font/bmjua_font"
+                            android:text="카메라" />
+
+                        <ImageView
+                            android:id="@+id/camera_line"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="#EF997F" />
+
+                        <TextView
+                            android:id="@+id/main_camera_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/bmjua_font"
+                            android:text="카메라로 촬영을하여
+                            환부를 분석합니다."
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/galleryBtn"
+                    android:layout_width="160dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#ffffff"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/ic_launcher_gallery" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/main_gallery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:fontFamily="@font/bmjua_font"
+                            android:text="갤러리" />
+
+                        <ImageView
+                            android:id="@+id/gallery_line"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="#EF997F" />
+
+                        <TextView
+                            android:id="@+id/main_gallery_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/bmjua_font"
+                            android:text="갤러리에 있는 사진으로 환부를 분석합니다."
+                            android:textSize="12dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btn_community"
+                    android:layout_width="160dp"
+                    android:layout_height="80dp"
+                    android:background="#ffffff"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/ic_launcher_community" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/main_community"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:fontFamily="@font/bmjua_font"
+                            android:text="커뮤니티" />
+
+                        <ImageView
+                            android:id="@+id/community_line"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="#EF997F" />
+
+                        <TextView
+                            android:id="@+id/main_community_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/bmjua_font"
+                            android:text="커뮤니티를 통해
+                            이야기를 나눕니다."
+                            android:textSize="12dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btn_googlemap"
+                    android:layout_width="160dp"
+                    android:layout_height="80dp"
+                    android:background="#ffffff"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/ic_launcher_map" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/main_map"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:fontFamily="@font/bmjua_font"
+                            android:text="병원 찾기" />
+
+                        <ImageView
+                            android:id="@+id/map_line"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="#EF997F" />
+
+                        <TextView
+                            android:id="@+id/main_map_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/bmjua_font"
+                            android:text="지도를 통해 병원을
+                            검색합니다."
+                            android:textSize="12dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </GridLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
