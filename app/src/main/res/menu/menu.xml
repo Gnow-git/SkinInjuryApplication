@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="홈"/>
+
+    <item
+        android:id="@+id/action_map"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_map"
+        android:iconTint="#7C808C"
+        android:title="병원 검색"/>
+
+    <item
+        android:id="@+id/action_community"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_community"
+        android:iconTint="#7C808C"
+        android:title="커뮤니티"/>
+
+    <item
+        android:id="@+id/action_profile"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="내 정보"/>
+</menu>

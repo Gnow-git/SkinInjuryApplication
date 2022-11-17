@@ -20,12 +20,18 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.example.skininjuryapplication.MainActivity;
 import com.example.skininjuryapplication.R;
+import com.example.skininjuryapplication.community.CommunityActivity;
+import com.example.skininjuryapplication.user.ProfileActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
@@ -41,6 +47,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -73,6 +80,7 @@ public class GoogleMapActivity extends AppCompatActivity
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int UPDATE_INTERVAL_MS = 1000; // 1초
     private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
+    private BottomNavigationView bottomNavigationView;
 
     /** onRequestPermissionsResult 에서 수신된 결과에서 ActivityCompat.requestPermission를
     사용한 요청을 구별하기 위해 사용됩니다.**/
@@ -130,7 +138,7 @@ public class GoogleMapActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
 
         // 지도 검색 버튼 구현
-        Button btn_search = findViewById(R.id.btn_search);
+        LinearLayout btn_search = findViewById(R.id.btn_search);
         btn_search.setOnClickListener(view -> {
             Intent intent = new Intent(GoogleMapActivity.this, GoogleMapSearchActivity.class);
             startActivity(intent);
@@ -139,6 +147,32 @@ public class GoogleMapActivity extends AppCompatActivity
         googleMapSearchProcess();
 
 
+        bottomNavigationView = findViewById(R.id.bottomNavi);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()){
+                    case R.id.action_home:
+                        Intent intent_home = new Intent(GoogleMapActivity.this, MainActivity.class);
+                        startActivity(intent_home);
+                        break;
+                    case R.id.action_map:
+                        Intent intent_map = new Intent(GoogleMapActivity.this, GoogleMapActivity.class);
+                        startActivity(intent_map);
+                        break;
+                    case R.id.action_community:
+                        Intent intent_community = new Intent(GoogleMapActivity.this, CommunityActivity.class);
+                        startActivity(intent_community);
+                        break;
+                    case R.id.action_profile:
+                        Intent intent_profile = new Intent(GoogleMapActivity.this, ProfileActivity.class);
+                        startActivity(intent_profile);
+                        break;
+                }
+                return false;
+            }
+        });
 
     } // onCreate() 끝
 
