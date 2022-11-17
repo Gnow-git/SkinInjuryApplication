@@ -30,6 +30,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:text="제목이 표시 되는 부분"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
             <TextView
                 android:id="@+id/list_text"
@@ -37,6 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:text="내용이 표시되는 부분"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
         </LinearLayout>
     </LinearLayout>

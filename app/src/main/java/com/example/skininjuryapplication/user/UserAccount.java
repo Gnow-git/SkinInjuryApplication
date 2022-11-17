@@ -8,6 +8,7 @@ public class UserAccount {
     private String idToken; // Firebase Uid(고유 토큰 정보)
     private String emailId; // 이메일 아이디
     private String userName; // 사용자 이름
+    private String age;    // 사용자 나이
     private String gender;  // 사용자 성별
     private String password;    // 비밀번호
 
@@ -31,6 +32,14 @@ public class UserAccount {
 
     public String getGender() {
         return gender;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 
     public void setGender(String gender) {

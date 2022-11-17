@@ -97,6 +97,28 @@
             android:orientation="horizontal">
 
             <View
+                android:id="@+id/age"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_baseline_gender_24" />
+
+            <EditText
+                android:id="@+id/et_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="나이를 입력하세요"
+                android:fontFamily="@font/bmjua_font"
+                android:paddingLeft="30dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <View
                 android:id="@+id/gender_view"
                 android:layout_width="20dp"
                 android:layout_height="20dp"

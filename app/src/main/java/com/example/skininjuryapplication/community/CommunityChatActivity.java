@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.skininjuryapplication.R;
 import com.example.skininjuryapplication.user.RegisterActivity;
@@ -33,9 +34,10 @@ public class CommunityChatActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private ImageView mImageEdit;
-    private EditText mTitleEditText;
-    private EditText mMessageEditText;
+    private EditText mTitleEditText, mMessageEditText;
+    private TextView userEmail;
     public static final String MESSAGE_CHILD = "List";
+    private FirebaseAuth mFirebaseAuth; // 파이어베이스 인증 처리
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +48,34 @@ public class CommunityChatActivity extends AppCompatActivity {
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mTitleEditText = findViewById(R.id.title_edit);
         mMessageEditText = findViewById(R.id.message_edit);
+        userEmail = findViewById(R.id.user_email);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        userEmail.setText(user.getEmail().toString());
         // 보내기 버튼
         findViewById(R.id.send_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
                 if (user != null) {
 
-                CommunityList chatMessage = new CommunityList(user.getEmail().toString(),mTitleEditText.getText().toString(),
-                        mMessageEditText.getText().toString());
+          /*      CommunityList chatMessage = new CommunityList(user.getEmail().toString(),mTitleEditText.getText().toString(),
+                        mMessageEditText.getText().toString());*/
 
-                mFirebaseDatabaseReference.child(MESSAGE_CHILD).child(getTime()).setValue(chatMessage);
+                    CommunityList communityList = new CommunityList();
+                    communityList.setTitle(mTitleEditText.getText().toString());    // 게시물 제목
+                    communityList.setEmail(user.getEmail().toString()); // 작성자 이메일
+                    communityList.setText(mMessageEditText.getText().toString());   // 게시물 내용
+
+
+
+                   /* account.setUserName(strName);
+                    account.setGender(gender);
+                    account.setPassword(strPwd);
+
+                    mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);*/
+
+                mFirebaseDatabaseReference.child(MESSAGE_CHILD).child(getTime()).setValue(communityList);
 
                 mTitleEditText.setText("");
                 mMessageEditText.setText("");

@@ -7,20 +7,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.skininjuryapplication.R;
-import com.example.skininjuryapplication.community.CommunityViewActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomViewHolder> {
 
     private ArrayList<CommentList> arrayList;
     private Context context;
+    private DatabaseReference mFirebaseDatabaseReference;
+    public static final String MESSAGE_CHILD = "List";
 
     // ClickEvent 처리
     private RecyclerViewClickListener mListener;
@@ -42,7 +48,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
     @Override
     // list view가 adapter 연결 후 view holder 생성
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_community, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }
@@ -50,26 +56,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
     @Override
     // 각 아이템에 대해 매칭
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        Glide.with(holder.itemView)
-                .load(arrayList.get(position).getProfile())
-                .into(holder.list_profile);
-        holder.list_title.setText(arrayList.get(position).getTitle());
-        holder.list_text.setText(arrayList.get(position).getText());
+        holder.comment_text.setText(arrayList.get(position).getText());
 
         // 아이템 클릭 이벤트 처리
         holder.itemView.setTag(position);   // 각각의 리스트 의미
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
-                // CommunityViewActivity.class에 title, text 전달
-                String mtitle = holder.list_title.getText().toString();
-                String mtext = holder.list_text.getText().toString();
 
-                Intent i = new Intent(context, CommunityViewActivity.class);
-                i.putExtra("title", mtitle);
-                i.putExtra("text", mtext);
-                context.startActivity(i);
+                String mtext = holder.comment_text.getText().toString();
+
             }
         });
     }
@@ -81,16 +77,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
     
     // 뷰 홀더 지정
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        ImageView list_profile;
-        TextView list_title;
-        TextView list_text;
+        TextView comment_text;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.list_profile = itemView.findViewById(R.id.list_profile);
-            this.list_title = itemView.findViewById(R.id.list_title);
-            this.list_text = itemView.findViewById(R.id.list_text);
+            this.comment_text = itemView.findViewById(R.id.comment_text);
         }
     }
+
 
 }

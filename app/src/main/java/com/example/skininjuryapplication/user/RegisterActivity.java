@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,8 +13,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.skininjuryapplication.R;
-import com.example.skininjuryapplication.community.CommunityActivity;
-import com.example.skininjuryapplication.community.CommunityChatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,12 +25,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth; // 파이어베이스 인증 처리
     private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
-    private EditText mEtEmail, mName, mEtPwd, mEtPwd_check;  // 회원가입 입력필드
+    private EditText mEtEmail, mName, mEtPwd, mEtPwd_check, mAge;  // 회원가입 입력필드
     private RadioButton radio_men, radio_women; // 성별 체크
     private RadioGroup radioGroup;  // 라디오 그룹
     private Button mBtnRegister;        // 회원가입 버튼
     private Button mBtnLogin;   // 로그인 버튼
-    private String gender;
+    private String gender;      // 성별
     private boolean pwd_equals; // 패스워드 확인
 
     @Override
@@ -46,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         mEtEmail = findViewById(R.id.et_email);
         mName = findViewById(R.id.et_name);
+        mAge = findViewById(R.id.et_age);
         mEtPwd = findViewById(R.id.et_pwd);
         mEtPwd_check = findViewById(R.id.et_pwd_check);
 
@@ -63,8 +61,10 @@ public class RegisterActivity extends AppCompatActivity {
                 // 회원가입 처리 시작
                 String strEmail = mEtEmail.getText().toString();
                 String strName = mName.getText().toString();
+                String strAge = mAge.getText().toString();
                 String strPwd = mEtPwd.getText().toString();
                 String strPwd_check = mEtPwd_check.getText().toString();
+
                 if(strPwd.equals(strPwd_check)){
                     pwd_equals = true;
                 }else pwd_equals = false;
@@ -80,6 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 account.setIdToken(firebaseUser.getUid());
                                 account.setEmailId(firebaseUser.getEmail());
                                 account.setUserName(strName);
+                                account.setAge(strAge);
                                 account.setGender(gender);
                                 account.setPassword(strPwd);
 

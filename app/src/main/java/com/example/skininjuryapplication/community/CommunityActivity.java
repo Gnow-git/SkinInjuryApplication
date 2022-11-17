@@ -13,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 
 import com.example.skininjuryapplication.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,7 +45,6 @@ public class CommunityActivity extends AppCompatActivity {
         arrayList = new ArrayList<>();  // CommunityList 객체를 담을 arraylist(adapter 쪽으로)
 
         database = FirebaseDatabase.getInstance();  // firebase database 연동
-
         databaseReference = database.getReference("List");  // DB TABLE 연결
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
