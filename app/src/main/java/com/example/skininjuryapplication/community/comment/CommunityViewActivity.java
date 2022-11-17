@@ -95,7 +95,7 @@ public class CommunityViewActivity extends AppCompatActivity {
         @Override
         public void onCancelled(@NonNull DatabaseError error) {
             // DB를 가져오던 중 에러 발생 시
-            Log.e("CommunityActivity", String.valueOf(error.toException()));    // 에러문 출력
+            Log.e("CommunityViewActivity", String.valueOf(error.toException()));    // 에러문 출력
         }
     });
 

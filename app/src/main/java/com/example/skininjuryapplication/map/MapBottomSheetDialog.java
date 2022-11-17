@@ -3,11 +3,13 @@ package com.example.skininjuryapplication.map;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -18,6 +20,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.skininjuryapplication.R;
+import com.example.skininjuryapplication.community.CommunityChatActivity;
+import com.example.skininjuryapplication.community.comment.CommentActivity;
+import com.example.skininjuryapplication.community.comment.CommunityViewActivity;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -36,6 +41,7 @@ public class MapBottomSheetDialog extends BottomSheetDialogFragment {
     ImageView bs_image;
     TextView bs_title, bs_address, bs_number;
     RatingBar ratingBar;
+    Button bt_map_detail;
     boolean expanded = false;
 
     @Nullable
@@ -48,6 +54,7 @@ public class MapBottomSheetDialog extends BottomSheetDialogFragment {
         ratingBar = view.findViewById(R.id.bs_ratingBar);
         bs_address = view.findViewById(R.id.bs_address);
         bs_number = view.findViewById(R.id.bs_number);
+        bt_map_detail = view.findViewById(R.id.map_detail);
 
         // firebase 지정
         mDatabase = FirebaseDatabase.getInstance().getReference("Map");
@@ -63,6 +70,7 @@ public class MapBottomSheetDialog extends BottomSheetDialogFragment {
 
         // firebase 에서 병원 정보 파싱하기
         readHospital_info(map_name);
+
 
       return view;
     }
@@ -114,6 +122,14 @@ public class MapBottomSheetDialog extends BottomSheetDialogFragment {
                 bs_title.setText(map_name);
                 bs_address.setText(address);
                 bs_number.setText(Num);
+
+                bt_map_detail.setOnClickListener(view -> {
+                    Intent i = new Intent(getActivity(), MapDetailActivity.class);
+                    i.putExtra("map_name", map_name);
+                    i.putExtra("address", address);
+                    i.putExtra("mapNum", Num);
+                    startActivity(i);
+                });
             }
 
             @Override

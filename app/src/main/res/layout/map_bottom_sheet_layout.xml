@@ -67,14 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="상세보기" />
-
-                <Button
-                    android:id="@+id/map_review"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="리뷰 쓰기" />
+                    android:text="상세보기 / 리뷰쓰기" />
             </LinearLayout>
 
 
