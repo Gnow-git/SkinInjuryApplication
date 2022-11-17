@@ -9,11 +9,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.skininjuryapplication.R;
+import com.example.skininjuryapplication.community.CommunityActivity;
+import com.example.skininjuryapplication.community.CommunityChatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -115,6 +118,13 @@ public class CommunityViewActivity extends AppCompatActivity {
                 }else   Toast.makeText(CommunityViewActivity.this, "댓글을 입력해주세요.", Toast.LENGTH_SHORT).show();
 
             }
+        });
+
+        // 게시물 리스트로 이동 버튼
+        Button listbtn = findViewById(R.id.btn_list);
+        listbtn.setOnClickListener(view -> {
+            Intent i = new Intent(CommunityViewActivity.this, CommunityActivity.class);
+            startActivity(i);
         });
     }
     private String getTime() {

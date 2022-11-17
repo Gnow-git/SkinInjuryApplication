@@ -8,6 +8,8 @@ public class MapList {
     private String mapName; // 장소 이름
     private String address; // 장소
     private String mapNum;  // 장소 번호
+    private Integer mapRating;  // 장소 별점
+    private String mapReview;   // 장소 평가
 
     // 객체 초기화
     public MapList() { }

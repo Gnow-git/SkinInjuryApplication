@@ -55,7 +55,7 @@ public class ClassifierWithModel {
         return isInitialized;
     }
 
-    private void initModelShape() { //TensorImage 생성성
+    private void initModelShape() { //TensorImage 생성
         //다차원 배열을 담는 자료구조, numpy와 비슷하다.
         Tensor inputTensor = model.getInputTensor(0); //인터프리터로 텐서 불러오기, model 객체에 다 들어있음
         int [] shape = inputTensor.shape(); // 텐서의 모양 정보 불러오기
