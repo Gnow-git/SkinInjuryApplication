@@ -66,7 +66,7 @@ public class MapDetailActivity extends AppCompatActivity {
     // textview에 해당 값 넣기
     v_name.setText(mname);
     v_address.setText(maddress);
-    v_num.setTag(mnum);
+    v_num.setText(mnum);
 
     /** recyclerview start **/
     recyclerView = findViewById(R.id.list_recycler_view);   // recyclerview 연결
