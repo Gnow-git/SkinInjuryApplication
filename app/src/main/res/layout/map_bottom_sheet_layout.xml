@@ -35,13 +35,7 @@
                 android:text="BottomSheet Test"
                 android:textSize="25sp" />
 
-            <RatingBar
-                android:id="@+id/bs_ratingBar"
-                style="@style/Widget.AppCompat.RatingBar.Indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:isIndicator="true"
-                android:numStars="5" />
+
 
             <TextView
                 android:id="@+id/bs_address"

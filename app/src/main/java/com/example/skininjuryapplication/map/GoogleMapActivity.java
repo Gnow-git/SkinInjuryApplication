@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.example.skininjuryapplication.MainActivity;
 import com.example.skininjuryapplication.R;
 import com.example.skininjuryapplication.community.CommunityActivity;
+import com.example.skininjuryapplication.user.LoginActivity;
 import com.example.skininjuryapplication.user.ProfileActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -50,6 +51,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 import java.util.List;
@@ -72,7 +75,7 @@ public class GoogleMapActivity extends AppCompatActivity
 
     protected double latitude, longitude;
 
-
+    private FirebaseAuth mFirebaseAuth;
     private GoogleMap mMap;
     private Marker currentMarker = null;
 
@@ -108,7 +111,7 @@ public class GoogleMapActivity extends AppCompatActivity
     private View mLayout;   // Snackbar 사용하기 위해서는 View가 필요(ex)Toast -> Context)
 
     private BottomSheetBehavior mBottomSheetBehavior;
-
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,8 +169,11 @@ public class GoogleMapActivity extends AppCompatActivity
                         startActivity(intent_community);
                         break;
                     case R.id.action_profile:
-                        Intent intent_profile = new Intent(GoogleMapActivity.this, ProfileActivity.class);
-                        startActivity(intent_profile);
+                        // 로그아웃 처리
+
+                        mFirebaseAuth.signOut();
+                        Intent i = new Intent(GoogleMapActivity.this, LoginActivity.class);
+                        startActivity(i);
                         break;
                 }
                 return false;

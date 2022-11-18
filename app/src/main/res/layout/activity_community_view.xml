@@ -17,17 +17,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="제목" />
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/bmjua_font"
+                android:layout_marginLeft="20dp"
+                android:text="제목"
+                android:textSize="30sp"/>
 
-            <TextView
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#FF9E8C87" />
+
+        <TextView
                 android:id="@+id/v_text"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="9"
-                android:text="내용" />
+                android:layout_marginTop="20dp"
+                android:layout_margin="20dp"
+                android:fontFamily="@font/bmjua_font"
+                android:text="내용"
+                android:textSize="20sp"/>
 
     </LinearLayout>
-
+    <ImageView
+        android:id="@+id/text_line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#9E8C87" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -70,13 +88,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_modify"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginHorizontal="10dp"
-            android:text="글 수정" />
+
 
         <Button
             android:id="@+id/btn_list"
@@ -86,13 +98,7 @@
             android:layout_marginHorizontal="10dp"
             android:text="목록으로" />
 
-        <Button
-            android:id="@+id/btn_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginHorizontal="10dp"
-            android:text="글 삭제" />
+        />
     </LinearLayout>
 
 </LinearLayout>

@@ -112,8 +112,11 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent_community);
                         break;
                     case R.id.action_profile:
-                        Intent intent_profile = new Intent(MainActivity.this, ProfileActivity.class);
-                        startActivity(intent_profile);
+                               // 로그아웃 처리
+
+                    mFirebaseAuth.signOut();
+                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(i);
                         break;
                 }
                 return false;

@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ClassifierWithModel {
-    private static final String MODEL_NAME="model2.tflite"; //텐서플로 라이트 모델
-    private static final String LABEL_FILE="labels2.txt";    //라벨
+    private static final String MODEL_NAME="final_model.tflite"; //텐서플로 라이트 모델
+    private static final String LABEL_FILE="labels.txt";    //라벨
 
     Context context;    //텐서플로 라이트 모델 전달을 위한 앱 컨텍스트
     Model model;    //딥러닝 모델이 직접 수행하는 동작을 한데 모아 객체화한 클래스

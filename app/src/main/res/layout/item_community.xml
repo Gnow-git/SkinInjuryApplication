@@ -29,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
+                android:fontFamily="@font/bmjua_font"
                 android:text="제목이 표시 되는 부분"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -38,10 +39,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
+                android:fontFamily="@font/bmjua_font"
                 android:text="내용이 표시되는 부분"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
         </LinearLayout>
     </LinearLayout>
+    <ImageView
+        android:id="@+id/text_line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#4A4645" />
 </LinearLayout>

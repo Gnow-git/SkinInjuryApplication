@@ -125,6 +125,7 @@ public class CommunityViewActivity extends AppCompatActivity {
         listbtn.setOnClickListener(view -> {
             Intent i = new Intent(CommunityViewActivity.this, CommunityActivity.class);
             startActivity(i);
+            finish();
         });
     }
     private String getTime() {

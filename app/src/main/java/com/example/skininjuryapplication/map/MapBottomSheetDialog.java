@@ -51,7 +51,6 @@ public class MapBottomSheetDialog extends BottomSheetDialogFragment {
 
         bs_image = view.findViewById(R.id.bs_image);
         bs_title = view.findViewById(R.id.bs_title);
-        ratingBar = view.findViewById(R.id.bs_ratingBar);
         bs_address = view.findViewById(R.id.bs_address);
         bs_number = view.findViewById(R.id.bs_number);
         bt_map_detail = view.findViewById(R.id.map_detail);
